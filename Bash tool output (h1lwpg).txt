@@ -1,0 +1,63 @@
+15:03:03 [INFO] 
+======================================================================
+15:03:03 [INFO]   2020 PDF
+15:03:03 [INFO] ======================================================================
+15:03:06 [INFO]   Australia            pg=103  years=12  vals=12  [OK] 
+15:03:10 [INFO]   Canada               pg=113  years=14  vals=11  [OK] YEAR MISMATCH: 14 years vs 12 data cols
+15:03:14 [INFO]   France               pg=128  years=14  vals=12  [OK] YEAR MISMATCH: 14 years vs 12 data cols
+15:03:18 [INFO]   Italy                pg=147  years=14  vals=12  [OK] YEAR MISMATCH: 14 years vs 12 data cols
+15:03:21 [INFO]   Spain                pg=188  years=14  vals=12  [OK] YEAR MISMATCH: 14 years vs 12 data cols
+15:03:26 [INFO]   United Kingdom       pg=200  years=12  vals=11  [OK] YEAR MISMATCH: 12 years vs 11 data cols
+15:03:33 [INFO]   United States        pg=202  years=12  vals=12  [OK] 
+15:03:33 [INFO] 
+======================================================================
+15:03:33 [INFO]   2022 PDF
+15:03:33 [INFO] ======================================================================
+15:03:36 [INFO]   Australia            pg=125  years=14  vals=14  [OK] 
+15:03:38 [INFO]   Canada               pg=135  years=14  vals=12  [OK] 
+15:03:40 [INFO]   France               pg=154  years=11  vals=11  [OK] 
+15:03:43 [INFO]   Italy                pg=177  years=14  vals=14  [OK] 
+15:03:46 [INFO]   Spain                pg=224  years=16  vals=14  [OK] YEAR MISMATCH: 16 years vs 14 data cols
+15:03:48 [INFO]   United Kingdom       pg=239  years=13  vals=13  [OK] 
+15:03:50 [INFO]   United States        pg=242  years=14  vals=14  [OK] 
+15:03:50 [INFO] 
+======================================================================
+15:03:50 [INFO]   2024 PDF
+15:03:50 [INFO] ======================================================================
+15:03:53 [INFO]   Australia            pg=113  years=16  vals=16  [OK] 
+15:03:55 [INFO]   Canada               pg=123  years=19  vals=15  [OK] YEAR MISMATCH: 19 years vs 16 data cols
+15:03:57 [INFO]   France               pg=141  years=13  vals=13  [OK] 
+15:04:00 [INFO]   Italy                pg=161  years=16  vals=16  [OK] 
+15:04:04 [INFO]   Spain                pg=208  years=16  vals=16  [OK] 
+15:04:07 [INFO]   United Kingdom       pg=223  years=15  vals=15  [OK] 
+15:04:11 [INFO]   United States        pg=226  years=15  vals=0   [MISSING] TARGET ROW NOT FOUND
+15:04:11 [INFO] 
+======================================================================
+15:04:11 [INFO]   2026 PDF
+15:04:11 [INFO] ======================================================================
+15:04:14 [INFO]   Australia            pg=84   years=18  vals=18  [OK] 
+15:04:16 [INFO]   Canada               pg=92   years=18  vals=17  [OK] 
+15:04:19 [INFO]   France               pg=113  years=19  vals=17  [OK] YEAR MISMATCH: 19 years vs 17 data cols
+15:04:22 [INFO]   Italy                pg=131  years=18  vals=18  [OK] 
+15:04:25 [INFO]   Spain                pg=174  years=18  vals=18  [OK] 
+15:04:28 [INFO]   United Kingdom       pg=189  years=19  vals=17  [OK] YEAR MISMATCH: 19 years vs 17 data cols
+15:04:31 [INFO]   United States        pg=191  years=18  vals=0   [MISSING] TARGET ROW NOT FOUND
+15:04:31 [INFO] 
+======================================================================
+15:04:31 [INFO]   FULL SUMMARY
+15:04:31 [INFO] ======================================================================
+15:04:31 [INFO] Country                    2020       2022       2024       2026
+15:04:31 [INFO] -------------------- ---------- ---------- ---------- ----------
+15:04:31 [INFO] Australia            pg103/12v pg125/14v pg113/16v pg84/18v
+15:04:31 [INFO] Canada               pg113/11v pg135/12v pg123/15v pg92/17v
+15:04:31 [INFO] France               pg128/12v pg154/11v pg141/13v pg113/17v
+15:04:31 [INFO] Italy                pg147/12v pg177/14v pg161/16v pg131/18v
+15:04:31 [INFO] Spain                pg188/12v pg224/14v pg208/16v pg174/18v
+15:04:31 [INFO] United Kingdom       pg200/11v pg239/13v pg223/15v pg189/17v
+15:04:31 [INFO] United States        pg202/12v pg242/14v    MISS    MISS
+15:04:31 [INFO] 
+Total: 26/28 found, 2 missing
+15:04:31 [INFO] 
+Missing details:
+15:04:31 [INFO]   2024 United States: TARGET ROW NOT FOUND
+15:04:31 [INFO]   2026 United States: TARGET ROW NOT FOUND

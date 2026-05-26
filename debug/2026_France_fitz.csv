@@ -1,0 +1,19 @@
+Col0,Col1,Col2,Col3,Col4,Debt,Col6,Col7,Col8,Col9,Col10,Col11,Col12,Col13,Col14,Col15,Col16,Col17,Col18
+"Outstanding business loans, SMEs",EUR billion,,,,,423.7,429.9,435.4,443.7,457.4,476.4,496.8,516.7,599.6,674.1,686.5,689.6,674.3
+"Outstanding business loans, total",EUR billion,,,,,1 010,1 027,1 037,1 080,1 132,1 196,1 263,1 342,1 515,1 542,1 666,1 681,1 712
+Share of SME outstanding loans,% of total outstanding business loans,,,,,41.94,41.88,41.98,41.08,40.41,39.82,39.32,38.50,39.59,43.73,41.20,41.04,39.40
+"New business lending, total",EUR million,293.9,232.1,235.1,248.0,238.6,208.1,184.5,239.6,267.6,315.7,314.7,330.2,436.7,321.6,373.3,314.6,
+"Government loan guarantees, SMEs",EUR million,3 219,5 752,5 326,4 231,4 157,4 394,4 783,4 984,5 229,5 103,5 095,4 805,5 873,5 315,6 366,,
+"Government guaranteed loans, SMEs",EUR billion,6.86,11.27,11.88,9.83,8.47,8.93,7.80,8.00,8.40,8.90,8.70,8.50,116.80,21.00,13.81,,
+"Non-performing loans, total",% of all business loans,3.66,4.71,4.56,3.96,4.06,4.25,4.13,4.04,3.90,3.61,3.27,2.54,2.22,1.92,1.90,1.99,2.06
+"Non-performing loans, SMEs",% of all SME loans,5.42,2.86,2.48,3.11,2.43,2.16,2.08,1.78,1.50,1.40,1.48,1.40,1.00,1.26,1.90,4.20,4.26
+"Interest rate, SMEs",%,4.76,1.96,1.57,2.23,1.72,1.46,1.30,1.19,1.14,1.10,1.03,0.90,0.73,1.10,1.32,3.50,4.03
+"Interest rate, large firms",%,0.66,0.90,0.91,0.89,0.71,0.70,0.78,0.59,0.35,0.30,0.45,0.50,0.27,0.16,0.58,0.70,0.30
+Interest rate spread,Percentage points,5.42,2.86,2.48,3.11,2.43,2.16,2.08,1.78,1.50,1.40,1.48,1.40,1.00,1.26,1.90,4.20,4.26
+"Collateral, SMEs","% of SMEs needing collateral to obtain
+bank lending",,,,,9.42,8.52,7.28,6.33,5.17,4.34,4.22,3.83,3.61,2.84,4.80,6.50,6.41
+"Percentage of SME loan
+applications","SME loan applications/ total number of
+SMEs",,,,,38.41,35.65,35.73,37.87,37.90,37.17,36.72,36.35,39.25,31.70,33.44,33.75,32.99
+Rejection rate,1-(SME loans authorised/ requested),,,,,7.00,6.20,5.30,5.20,3.90,3.10,2.90,2.10,2.60,3.20,3.50,3.80,4.10
+Utilisation rate,SME loans used/ authorised,87.77,87.18,86.39,87.03,87.64,87.32,87.50,87.20,87.02,86.80,86.84,87.05,88.71,89.10,88.50,88.77,89.07
