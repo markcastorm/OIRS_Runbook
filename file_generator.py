@@ -5,7 +5,7 @@ Public API
 ----------
 generate_files(df, date_str) -> dict
     Writes OIRS_DATA_<stamp>.xlsx, OIRS_META_<stamp>.xlsx, OIRS_<stamp>.zip
-    to config.OUTPUT_DIR and copies all three to config.OUTPUT_DIR/latest/.
+    to config.OUTPUT_DIR/<stamp>/ and copies all three to config.OUTPUT_DIR/latest/.
     Returns {'data_path': ..., 'meta_path': ..., 'zip_path': ...}.
 """
 
@@ -25,11 +25,12 @@ def generate_files(df, date_str):
                  index=year int, columns=country names, values=float/NaN
     date_str : 'YYYYMMDD' string from scraper.download()
     """
-    os.makedirs(config.OUTPUT_DIR, exist_ok=True)
+    run_dir = os.path.join(config.OUTPUT_DIR, date_str)
+    os.makedirs(run_dir, exist_ok=True)
 
-    data_path = _write_data(df, date_str)
-    meta_path = _write_meta(date_str)
-    zip_path  = _write_zip(date_str, [data_path, meta_path])
+    data_path = _write_data(df, date_str, run_dir)
+    meta_path = _write_meta(date_str, run_dir)
+    zip_path  = _write_zip(date_str, run_dir, [data_path, meta_path])
 
     latest_dir = os.path.join(config.OUTPUT_DIR, 'latest')
     os.makedirs(latest_dir, exist_ok=True)
@@ -41,12 +42,12 @@ def generate_files(df, date_str):
 
 # ── DATA file ─────────────────────────────────────────────────────────────────
 
-def _write_data(df, stamp):
+def _write_data(df, stamp, run_dir):
     """
     Two header rows (codes / descriptions) followed by one row per year.
     Missing values are written as config.NA_OUTPUT_VALUE (empty string).
     """
-    path = os.path.join(config.OUTPUT_DIR, f'OIRS_DATA_{stamp}.xlsx')
+    path = os.path.join(run_dir, f'OIRS_DATA_{stamp}.xlsx')
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = 'Data'
@@ -68,8 +69,8 @@ def _write_data(df, stamp):
 
 # ── META file ─────────────────────────────────────────────────────────────────
 
-def _write_meta(stamp):
-    path = os.path.join(config.OUTPUT_DIR, f'OIRS_META_{stamp}.xlsx')
+def _write_meta(stamp, run_dir):
+    path = os.path.join(run_dir, f'OIRS_META_{stamp}.xlsx')
     rows = []
     for c in config.COUNTRIES:
         row = dict(config.META_STATIC)
@@ -87,8 +88,8 @@ def _write_meta(stamp):
 
 # ── ZIP ───────────────────────────────────────────────────────────────────────
 
-def _write_zip(stamp, files):
-    path = os.path.join(config.OUTPUT_DIR, f'OIRS_{stamp}.zip')
+def _write_zip(stamp, run_dir, files):
+    path = os.path.join(run_dir, f'OIRS_{stamp}.zip')
     with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as zf:
         for f in files:
             zf.write(f, os.path.basename(f))

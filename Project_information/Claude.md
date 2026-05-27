@@ -412,6 +412,117 @@ python -m playwright install chromium
 
 ---
 
+## File Generator Design (file_generator.py)
+
+### DATA File: `_write_data(df, stamp)`
+
+Uses openpyxl directly (not pandas `to_excel`) to control the exact two-header-row layout:
+```python
+ws.append([''] + [c['code']        for c in config.COUNTRIES])   # Row 0: codes
+ws.append([''] + [c['description'] for c in config.COUNTRIES])   # Row 1: labels
+for year in sorted(df.index):
+    row = [year]
+    for name in country_names:
+        v = df.loc[year, name]
+        row.append(config.NA_OUTPUT_VALUE if pd.isna(v) else float(v))
+    ws.append(row)
+```
+- NaN → `''` (empty string, not "NaN" text)
+- Year column has no header (first cell of rows 0/1 is blank)
+- Country column order matches `config.COUNTRIES` exactly
+
+### META File: `_write_meta(stamp)`
+
+One row per country. Merges `config.META_STATIC` (shared fields) with per-country fields:
+```python
+row = dict(config.META_STATIC)          # FREQUENCY, MULTIPLIER, DATA_TYPE, etc.
+row['CODE']          = c['code']         # OIRS.IRS.AUS.A
+row['CODE_MNEMONIC'] = c['mnemonic']     # OIRS.IRS.AUS
+row['DESCRIPTION']   = c['description']  # Interest rate spread: Australia
+row['COUNTRY']       = c['iso']          # AUS
+```
+Column order defined by `config.META_COLUMNS` list.
+
+### ZIP + Latest Copy
+
+`_write_zip()` packages DATA + META into one ZIP. All three files are then copied to `output/latest/` so downstream consumers always have a stable path.
+
+---
+
+## Orchestrator & Main Entry Point
+
+### orchestrator.py
+
+Three steps, sequential, with logging:
+```python
+def main():
+    result = scraper.download()          # Step 1: PDF download
+    df = extractor.extract(pdf_path)     # Step 2: Table extraction
+    files = file_generator.generate_files(df, date_str)  # Step 3: Output files
+```
+Returns the file paths dict. No retry logic — failures propagate as exceptions.
+
+### main.py
+
+Minimal entry point: configures logging (`HH:MM:SS [LEVEL] message`), calls `orchestrator.main()`, exits with code 1 on failure.
+
+---
+
+## How to Build a New Runbook (Development Workflow)
+
+This section captures the workflow used to build OIRS, as a template for similar projects.
+
+### Step 1: Scraper First (get the PDF)
+
+1. Start with `config.py` — define BASE_URL, HEADLESS_MODE, TARGET_DATE, JOB_NAME
+2. Build `scraper.py` with Playwright + stealth:
+   - Use `headless=False` + `--headless=new` (NEVER `headless=True`)
+   - Navigate to listing page, find publication, extract PDF URL, download
+   - Test headed first (`HEADLESS_MODE=False`), then headless
+3. Key OECD-specific patterns to reuse:
+   - Cookie consent dismissal
+   - 3-path PDF URL strategy (iLibrary → requests → browser click)
+   - Cloudflare Turnstile fallback code
+   - Relative href → absolute URL conversion
+
+### Step 2: Extractor — One Country at a Time
+
+1. Start with ONE country (e.g., Australia) and ONE PDF edition
+2. Use a standalone test file (`test_<country>.py`) to iterate on extraction logic:
+   - Page finding (multi-criteria: title + keywords + year density)
+   - Table extraction (fitz `find_tables()` → search all tables for target row)
+   - Year extraction from page text (longest consecutive run)
+   - Value parsing (handle NaN tokens, number formats)
+3. Test that ONE country against ALL available sample PDFs (different editions)
+4. Only then expand to remaining countries — the extraction logic should be identical
+5. Watch for:
+   - Multi-page tables (combine text from page N and N+1 for keyword checking)
+   - Countries that lack the target row (like USA — output blank, don't error)
+   - Data revisions between editions (use per-edition reference values for testing)
+   - Labels with `\n` from fitz (normalize before matching)
+
+### Step 3: Output Files
+
+1. Build `file_generator.py` to produce DATA, META, ZIP
+2. DATA format: openpyxl for precise two-header-row control
+3. META format: pandas `to_excel` from config-driven column list + static fields
+4. Always copy to `output/latest/` for stable downstream paths
+
+### Step 4: Wire It Together
+
+1. `orchestrator.py` — three sequential steps, logging between each
+2. `main.py` — logging config + exception handling
+3. Test end-to-end with `HEADLESS_MODE=True`
+4. Test with different `TARGET_DATE` values to confirm date targeting works
+
+### Step 5: Validate and Document
+
+1. Run full pipeline, validate output DATA against reference values
+2. Update Claude.md with everything discovered during development
+3. Move test files to `Project_information/`
+
+---
+
 ## Key Edge Cases
 
 1. **USA has no IRS row** — US scoreboard tables don't include "Interest rate spread". Output is all blank. Expected behavior.
